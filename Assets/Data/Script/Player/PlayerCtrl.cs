@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CapsuleCollider2D))]
 public class PlayerCtrl : HuyMonoBehaviour
 {
     [SerializeField] protected Rigidbody2D rb2D;
     public Rigidbody2D Rb2D => rb2D;
-
-    [SerializeField] protected CapsuleCollider2D capsuleCollider;
-    public CapsuleCollider2D CapsuleCollider => capsuleCollider;
 
     [SerializeField] protected PlayerClimb playerClimb;
     public PlayerClimb PlayerClimb => playerClimb;
@@ -18,13 +15,19 @@ public class PlayerCtrl : HuyMonoBehaviour
     [SerializeField] protected PlayerMove playerMove;
     public PlayerMove PlayerMove => playerMove;
 
+    [SerializeField] protected PlayerRespawn playerRespawn;
+    public PlayerRespawn PlayerRespawn => playerRespawn;
+
+    public int checkPoint;
+    public bool isDead;
+
     protected override void LoadComponent()
     {
         base.LoadComponent();
-        this.LoadCollider();
         this.LoadRigidbody();
         this.LoadPlayerClimb();
         this.LoadPlayerMove();
+        this.LoadPlayerRespawn();
     }
 
     protected override void Update()
@@ -41,13 +44,6 @@ public class PlayerCtrl : HuyMonoBehaviour
         Debug.Log(transform.name + ": LoadRigidbody", transform.gameObject);
     }
 
-    protected virtual void LoadCollider()
-    {
-        if(this.capsuleCollider != null) return;
-        this.capsuleCollider = GetComponent<CapsuleCollider2D>();
-        Debug.Log(transform.name + ": LoadCollider", transform.gameObject);
-    }
-
     protected virtual void LoadPlayerClimb()
     {
         if(this.playerClimb != null) return;
@@ -60,5 +56,12 @@ public class PlayerCtrl : HuyMonoBehaviour
         if(this.playerMove != null) return;
         this.playerMove = transform.GetComponentInChildren<PlayerMove>();
         Debug.Log(transform.name + ": LoadPlayerMove", transform.gameObject);
+    }
+
+    protected virtual void LoadPlayerRespawn()
+    {
+        if(this.playerRespawn != null) return;
+        this.playerRespawn = transform.GetComponentInChildren<PlayerRespawn>();
+        Debug.Log(transform.name + ": LoadPlayerRespawn", transform.gameObject);
     }
 }

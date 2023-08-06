@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,9 @@ public class SpikeCtrl : HuyMonoBehaviour
     [SerializeField] protected PolygonCollider2D obstacleCollider;
     public PolygonCollider2D ObstacleCollider => obstacleCollider;
 
+    [SerializeField] protected PlayerCtrl playerCtrl;
+    public PlayerCtrl PlayerCtrl => playerCtrl;
+
     [SerializeField] protected Rigidbody2D rb2D;
     public Rigidbody2D Rb2D => rb2D;
 
@@ -18,6 +22,7 @@ public class SpikeCtrl : HuyMonoBehaviour
         base.LoadComponent();
         this.LoadRigidbody();
         this.LoadCollider();
+        this.LoadPlayerCtrl();
     }
 
     protected virtual void LoadRigidbody()
@@ -36,11 +41,17 @@ public class SpikeCtrl : HuyMonoBehaviour
         Debug.Log(transform.name + ": LoadCollider", transform.gameObject);
     }
 
+    protected virtual void LoadPlayerCtrl()
+    {
+        if(this.playerCtrl != null) return;
+        this.playerCtrl = GameObject.Find("Player").GetComponent<PlayerCtrl>();
+    }
+
     protected void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(0);
+            this.playerCtrl.isDead = true;
         }
     }
 }

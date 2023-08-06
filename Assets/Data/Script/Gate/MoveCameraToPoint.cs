@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(EdgeCollider2D))]
 public class MoveCameraToPoint : HuyMonoBehaviour
 {
-    [SerializeField] protected float transitionTime = 2f;
+    [SerializeField] protected float transitionTime = 0.1f;
 
     [SerializeField] protected EdgeCollider2D edgeCollider;
     public EdgeCollider2D EdgeCollider => edgeCollider;
 
-    [SerializeField] protected CameraPoint cameraPoint;
+    [SerializeField] protected GetPointPosition cameraPoint;
 
     [SerializeField] protected GameObject mainCamera;
 
@@ -25,7 +25,7 @@ public class MoveCameraToPoint : HuyMonoBehaviour
     protected virtual void LoadCameraPoint()
     {
         if (this.cameraPoint != null) return;
-        this.cameraPoint = transform.parent.GetComponent<CameraPoint>();
+        this.cameraPoint = transform.parent.GetComponent<GetPointPosition>();
         Debug.Log(transform.name + ": LoadCameraPoint", transform.gameObject);
     }
 
@@ -43,6 +43,7 @@ public class MoveCameraToPoint : HuyMonoBehaviour
         this.edgeCollider.isTrigger = true;
         Debug.Log(transform.name + ": LoadCollider", transform.gameObject);
     }
+
     protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

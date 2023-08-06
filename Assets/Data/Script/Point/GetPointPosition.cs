@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraPoint : HuyMonoBehaviour
+public class GetPointPosition : HuyMonoBehaviour
 {
     [SerializeField] protected Transform point;
     public Transform Point => point;
@@ -10,10 +10,10 @@ public class CameraPoint : HuyMonoBehaviour
     protected override void LoadComponent()
     {
         base.LoadComponent();
-        this.LoadCameraPoint();
+        this.LoadPoint();
     }
 
-    protected virtual void LoadCameraPoint()
+    protected virtual void LoadPoint()
     {
         if (this.point != null) return;
         this.point = GetComponent<Transform>();
